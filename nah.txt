@@ -1,0 +1,46 @@
+1. Thuật toán Sắp xếp
+-Sắp xếp nổi bọt (Bubble Sort)
+-Sắp xếp chọn (Selection Sort)
+-Sắp xếp chèn (Insertion Sort)
+-Sắp xếp nhanh (Quick Sort)
+-Sắp xếp trộn (Merge Sort)
+
+2. Thuật toán Tìm kiếm
+-Tìm kiếm tuyến tính (Linear Search)
+-Tìm kiếm nhị phân (Binary Search)
+
+3. Thuật toán Số học
+-Tính giai thừa
+-Dãy Fibonacci (Đệ quy & Không đệ quy)
+-Ước chung lớn nhất (GCD - Euclid Algorithm)
+-Bội chung nhỏ nhất (LCM)
+-Kiểm tra số nguyên tố (Sàng Eratosthenes)
+-Phân tích số nguyên thành thừa số nguyên tố
+-Số hoàn hảo, số Amstrong, số Palindrome
+
+4. Thuật toán Đồ thị
+-Tìm kiếm theo chiều sâu (DFS - Depth First Search)
+-Tìm kiếm theo chiều rộng (BFS - Breadth First Search)
+-Dijkstra - Tìm đường đi ngắn nhất
+-Thuật toán Floyd-Warshall
+
+5. Quy Hoạch Động & Quay Lui
+-Bài toán Balo 0/1 (Knapsack 0/1 Problem)
+-Dãy con chung dài nhất (LCS - Longest Common Subsequence)
+-Chuỗi con đối xứng dài nhất
+-Quay lui (Backtracking) - Bài toán N-Queen
+-Sinh hoán vị, tổ hợp, chỉnh hợp
+
+6. Thuật toán Xử lý Chuỗi
+-Tìm kiếm chuỗi (KMP, Rabin-Karp)
+-Chuỗi con đối xứng dài nhất
+
+7. Thuật toán Xử lý Mảng & Ma Trận
+-Tìm phần tử lớn nhất / nhỏ nhất trong mảng
+-Tìm tổng dãy con lớn nhất (Kadane’s Algorithm)
+-Xoay ma trận 90 độ
+
+8. Thuật toán Tính Độ Bền
+-Tìm ước bền vững nhất của 1 số
+-Số có độ bền công/ nhân cao nhất
+-Độ bền của 1 số có hai chữ số (ví dụ:doben(77)=doben(49)+1=doben(36)+1+1=doben(18)+1+1+1=doben(8)+1+1+1+1=0+1+1+1+1, vậy độ bền của 77 là 4)
