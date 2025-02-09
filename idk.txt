@@ -1,0 +1,992 @@
+1. Thuật toán Sắp xếp
+-Sắp xếp nổi bọt (Bubble Sort)
+procedure BubbleSort(var arr: array of Integer; n: Integer);
+var
+  i, j, temp: Integer;
+begin
+  for i := 0 to n - 2 do
+    for j := 0 to n - 2 - i do
+      if arr[j] > arr[j + 1] then
+      begin
+        temp := arr[j];
+        arr[j] := arr[j + 1];
+        arr[j + 1] := temp;
+      end;
+end;
+Giải thích: Thuật toán so sánh từng cặp phần tử liền kề và đổi chỗ nếu chúng không đúng thứ tự. Quá trình lặp lại cho đến khi không còn cặp nào cần đổi chỗ.
+
+-Sắp xếp chọn (Selection Sort)
+procedure SelectionSort(var arr: array of Integer; n: Integer);
+var
+  i, j, minIndex, temp: Integer;
+begin
+  for i := 0 to n - 2 do
+  begin
+    minIndex := i;
+    for j := i + 1 to n - 1 do
+      if arr[j] < arr[minIndex] then
+        minIndex := j;
+    temp := arr[i];
+    arr[i] := arr[minIndex];
+    arr[minIndex] := temp;
+  end;
+end;
+Giải thích: Thuật toán tìm phần tử nhỏ nhất trong mảng chưa được sắp xếp và đổi chỗ nó với phần tử đầu tiên của mảng chưa được sắp xếp.
+
+-Sắp xếp chèn (Insertion Sort)
+procedure InsertionSort(var arr: array of Integer; n: Integer);
+var
+  i, j, key: Integer;
+begin
+  for i := 1 to n - 1 do
+  begin
+    key := arr[i];
+    j := i - 1;
+    while (j >= 0) and (arr[j] > key) do
+    begin
+      arr[j + 1] := arr[j];
+      j := j - 1;
+    end;
+    arr[j + 1] := key;
+  end;
+end;
+Giải thích: Thuật toán xây dựng mảng đã sắp xếp bằng cách chèn từng phần tử vào vị trí thích hợp trong mảng đã sắp xếp.
+
+-Sắp xếp nhanh (Quick Sort)
+procedure QuickSort(var arr: array of Integer; low, high: Integer);
+var
+  i, j, pivot, temp: Integer;
+begin
+  if low < high then
+  begin
+    pivot := arr[high];
+    i := low - 1;
+    for j := low to high - 1 do
+      if arr[j] < pivot then
+      begin
+        i := i + 1;
+        temp := arr[i];
+        arr[i] := arr[j];
+        arr[j] := temp;
+      end;
+    temp := arr[i + 1];
+    arr[i + 1] := arr[high];
+    arr[high] := temp;
+    QuickSort(arr, low, i);
+    QuickSort(arr, i + 2, high);
+  end;
+end;
+Giải thích: Thuật toán chọn một phần tử làm pivot và chia mảng thành hai phần: một phần nhỏ hơn pivot và một phần lớn hơn pivot. Sau đó, thuật toán đệ quy sắp xếp hai phần này.
+
+-Sắp xếp trộn (Merge Sort)
+procedure Merge(var arr: array of Integer; l, m, r: Integer);
+var
+  i, j, k: Integer;
+  n1, n2: Integer;
+  LArr, RArr: array of Integer;
+begin
+  n1 := m - l + 1;
+  n2 := r - m;
+  SetLength(LArr, n1);
+  SetLength(RArr, n2);
+  for i := 0 to n1 - 1 do
+    LArr[i] := arr[l + i];
+  for j := 0 to n2 - 1 do
+    RArr[j] := arr[m + 1 + j];
+
+  i := 0; 
+  j := 0; 
+  k := l;
+
+  while (i < n1) and (j < n2) do
+  begin
+    if LArr[i] <= RArr[j] then
+    begin
+      arr[k] := LArr[i];
+      i := i + 1;
+    end
+    else
+    begin
+      arr[k] := RArr[j];
+      j := j + 1;
+    end;
+    k := k + 1;
+  end;
+
+  while i < n1 do
+  begin
+    arr[k] := LArr[i];
+    i := i + 1;
+    k := k + 1;
+  end;
+
+  while j < n2 do
+  begin
+    arr[k] := RArr[j];
+    j := j + 1;
+    k := k + 1;
+  end;
+end;
+
+procedure MergeSort(var arr: array of Integer; l, r: Integer);
+begin
+  if l < r then
+  begin
+    var m := l + (r - l) div 2;
+    MergeSort(arr, l, m);
+    MergeSort(arr, m + 1, r);
+    Merge(arr, l, m, r);
+  end;
+end;
+Giải thích: Thuật toán chia mảng thành hai nửa, sắp xếp từng nửa và sau đó trộn chúng lại với nhau. Đây là một thuật toán sắp xếp hiệu quả với độ phức tạp O(n log n).
+
+2. Thuật toán Tìm kiếm
+Tìm kiếm tuyến tính (Linear Search)
+function LinearSearch(arr: array of Integer; n, key: Integer): Integer;
+var
+  i: Integer;
+begin
+  for i := 0 to n - 1 do
+    if arr[i] = key then
+      Exit(i);
+  Result := -1; // Không tìm thấy
+end;
+Giải thích: Thuật toán duyệt qua từng phần tử trong mảng cho đến khi tìm thấy phần tử cần tìm hoặc đến hết mảng.
+
+Tìm kiếm nhị phân (Binary Searchd)
+function BinarySearch(arr: array of Integer; low, high, key: Integer): Integer;
+var
+  mid: Integer;
+begin
+  while low <= high do
+  begin
+    mid := low + (high - low) div 2;
+    if arr[mid] = key then
+      Exit(mid)
+    else if arr[mid] < key then
+      low := mid + 1
+    else
+      high := mid - 1;
+  end;
+  Result := -1; // Không tìm thấy
+end;
+Giải thích: Thuật toán tìm kiếm trong mảng đã được sắp xếp bằng cách chia đôi mảng và so sánh phần tử giữa với giá trị cần tìm.
+3. Thuật toán Số học
+Tính giai thừa
+function Factorial(n: Integer): Integer;
+begin
+  if n = 0 then
+    Result := 1
+  else
+    Result := n * Factorial(n - 1);
+end;
+Giải thích: Hàm tính giai thừa của một số n bằng cách sử dụng đệ quy.
+
+Dãy Fibonacci (Đệ quy)
+function Fibonacci(n: Integer): Integer;
+begin
+  if n <= 1 then
+    Result := n
+  else
+    Result := Fibonacci(n - 1) + Fibonacci(n - 2);
+end;
+Giải thích: Hàm tính số Fibonacci thứ n bằng cách sử dụng đệ quy.
+
+Dãy Fibonacci (Không đệ quy)
+function FibonacciIterative(n: Integer): Integer;
+var
+  a, b, i: Integer;
+begin
+  a := 0; 
+  b := 1;
+  for i := 2 to n do
+  begin
+    Result := a + b;
+    a := b;
+    b := Result;
+  end;
+  Result := b; // Trả về số Fibonacci thứ n
+end;
+
+3. Thuật toán Số học
+Ước chung lớn nhất (GCD - Euclid Algorithm)
+function GCD(a, b: Integer): Integer;
+begin
+  while b <> 0 do
+  begin
+    var temp := b;
+    b := a mod b;
+    a := temp;
+  end;
+  Result := a;
+end;
+Giải thích: Thuật toán Euclid tìm ước chung lớn nhất của hai số bằng cách liên tục lấy phần dư của phép chia.
+
+Bội chung nhỏ nhất (LCM)
+function LCM(a, b: Integer): Integer;
+begin
+  Result := (a * b) div GCD(a, b);
+end;
+Giải thích: Bội chung nhỏ nhất của hai số được tính bằng cách sử dụng công thức LCM(a, b) = (a * b) / GCD(a, b).
+
+Kiểm tra số nguyên tố (Sàng Eratosthenes)
+procedure SieveOfEratosthenes(n: Integer);
+var
+  isPrime: array of Boolean;
+  i, j: Integer;
+begin
+  SetLength(isPrime, n + 1);
+  for i := 2 to n do
+    isPrime[i] := True;
+
+  for i := 2 to T  c(Sqrt(n)) do
+    if isPrime[i] then
+      for j := i * i to n do
+        if j mod i = 0 then
+          isPrime[j] := False;
+
+  for i := 2 to n do
+    if isPrime[i] then
+      Write(i, ' ');
+end;
+Giải thích: Thuật toán sàng Eratosthenes tìm tất cả các số nguyên tố nhỏ hơn hoặc bằng n bằng cách loại bỏ các bội số của các số nguyên tố.
+
+Phân tích số nguyên thành thừa số nguyên tố
+procedure PrimeFactors(n: Integer);
+var
+  i: Integer;
+begin
+  while n mod 2 = 0 do
+  begin
+    Write(2, ' ');
+    n := n div 2;
+  end;
+
+  for i := 3 to T  c(Sqrt(n)) do
+    while n mod i = 0 do
+    begin
+      Write(i, ' ');
+      n := n div i;
+    end;
+
+  if n > 2 then
+    Write(n, ' ');
+end;
+Giải thích: Thuật toán phân tích một số nguyên thành các thừa số nguyên tố bằng cách chia liên tiếp cho các số nguyên tố.
+
+Số hoàn hảo, số Armstrong, số Palindrome
+function IsPerfectNumber(n: Integer): Boolean;
+var
+  i, sum: Integer;
+begin
+  sum := 0;
+  for i := 1 to n div 2 do
+    if n mod i = 0 then
+      sum := sum + i;
+  Result := sum = n;
+end;
+
+function IsArmstrongNumber(n: Integer): Boolean;
+var
+  originalNumber, remainder, result: Integer;
+begin
+  originalNumber := n;
+  result := 0;
+  while originalNumber <> 0 do
+  begin
+    remainder := originalNumber mod 10;
+    result := result + remainder * remainder * remainder;
+    originalNumber := originalNumber div 10;
+  end;
+  Result := result = n;
+end;
+
+function IsPalindrome(n: Integer): Boolean;
+var
+  reversedNumber, originalNumber, remainder: Integer;
+begin
+  originalNumber := n;
+  reversedNumber := 0;
+  while originalNumber <> 0 do
+  begin
+    remainder := originalNumber mod 10;
+    reversedNumber := reversedNumber * 10 + remainder;
+    originalNumber := originalNumber div 10;
+  end;
+  Result := reversedNumber = n;
+end;
+Giải thích:
+Số hoàn hảo: Một số bằng tổng các ước số của nó (không tính chính nó).
+Số Armstrong: Một số bằng tổng lập phương các chữ số của nó.
+Số Palindrome: Một số đọc từ trái sang phải và từ phải sang trái giống nhau.
+
+4. Thuật toán Đồ thị
+Tìm kiếm theo chiều sâu (DFS - Depth First Search)
+procedure DFS(graph: array of array of Integer; v: Integer; visited: array of Boolean);
+var
+  i: Integer;
+begin
+  visited[v] := True;
+  Write(v, ' '); // Xử lý đỉnh v
+
+  for i := 0 to Length(graph[v]) - 1 do
+    if (graph[v][i] = 1) and (not visited[i]) then
+      DFS(graph, i, visited);
+end;
+
+procedure PerformDFS(graph: array of array of Integer; startVertex: Integer);
+var
+  visited: array of Boolean;
+  i: Integer;
+begin
+  SetLength(visited, Length(graph));
+  for i := 0 to Length(graph) - 1 do
+    visited[i] := False;
+
+  DFS(graph, startVertex, visited);
+end;
+Giải thích: Thuật toán DFS duyệt qua các đỉnh của đồ thị bằng cách đi sâu vào các nhánh trước khi quay lại. Nó sử dụng một mảng visited để theo dõi các đỉnh đã được duyệt.
+
+Tìm kiếm theo chiều rộng (BFS - Breadth First Search)
+procedure BFS(graph: array of array of Integer; startVertex: Integer);
+var
+  queue: array of Integer;
+  visited: array of Boolean;
+  front, rear, i: Integer;
+begin
+  SetLength(queue, Length(graph));
+  SetLength(visited, Length(graph));
+  for i := 0 to Length(graph) - 1 do
+    visited[i] := False;
+
+  front := 0;
+  rear := 0;
+  queue[rear] := startVertex;
+  rear := rear + 1;
+  visited[startVertex] := True;
+
+  while front < rear do
+  begin
+    var currentVertex := queue[front];
+    Write(currentVertex, ' '); // Xử lý đỉnh hiện tại
+    front := front + 1;
+
+    for i := 0 to Length(graph[currentVertex]) - 1 do
+      if (graph[currentVertex][i] = 1) and (not visited[i]) then
+      begin
+        queue[rear] := i;
+        rear := rear + 1;
+        visited[i] := True;
+      end;
+  end;
+end;
+Giải thích: Thuật toán BFS duyệt qua các đỉnh của đồ thị theo chiều rộng, xử lý tất cả các đỉnh ở mức hiện tại trước khi chuyển sang mức tiếp theo. Nó sử dụng một hàng đợi để theo dõi các đỉnh cần được xử lý.
+
+Dijkstra - Tìm đường đi ngắn nhất
+procedure Dijkstra(graph: array of array of Integer; startVertex: Integer);
+var
+  distances: array of Integer;
+  visited: array of Boolean;
+  i, j, minDistance, nextVertex: Integer;
+begin
+  SetLength(distances, Length(graph));
+  SetLength(visited, Length(graph));
+  
+  for i := 0 to Length(graph) - 1 do
+  begin
+    distances[i] := MaxInt; // Khởi tạo khoảng cách
+    visited[i] := False;
+  end;
+
+  distances[startVertex] := 0;
+
+  for i := 0 to Length(graph) - 1 do
+  begin
+    minDistance := MaxInt;
+    nextVertex := -1;
+
+    for j := 0 to Length(graph) - 1 do
+      if (not visited[j]) and (distances[j] < minDistance) then
+      begin
+        minDistance := distances[j];
+        nextVertex := j;
+      end;
+
+    if nextVertex = -1 then
+      Break;
+
+    visited[nextVertex] := True;
+
+    for j := 0 to Length(graph[nextVertex]) - 1 do
+      if (graph[nextVertex][j] <> 0) and (distances[nextVertex] + graph[nextVertex][j] < distances[j]) then
+        distances[j] := distances[nextVertex] + graph[nextVertex][j];
+  end;
+
+  for i := 0 to Length(distances) - 1 do
+    WriteLn('Khoảng cách từ ', startVertex, ' đến ', i, ' là: ', distances[i]);
+end;
+Giải thích: Thuật toán Dijkstra tìm đường đi ngắn nhất từ một đỉnh đến tất cả các đỉnh khác trong đồ thị có trọng số không âm. Nó sử dụng một mảng để lưu trữ khoảng cách ngắn nhất từ đỉnh bắt đầu đến các đỉnh khác.
+ị
+Thuật toán Floyd-Warshall
+procedure FloydWarshall(graph: array of array of Integer);
+var
+  i, j, k: Integer;
+begin
+  for k := 0 to Length(graph) - 1 do
+    for i := 0 to Length(graph) - 1 do
+      for j := 0 to Length(graph) - 1 do
+        if graph[i][k] + graph[k][j] < graph[i][j] then
+          graph[i][j] := graph[i][k] + graph[k][j];
+
+  // In ma trận khoảng cách ngắn nhất
+  for i := 0 to Length(graph) - 1 do
+  begin
+    for j := 0 to Length(graph) - 1 do
+      Write(graph[i][j], ' ');
+    WriteLn;
+  end;
+end;
+Giải thích: Thuật toán Floyd-Warshall tìm đường đi ngắn nhất giữa tất cả các cặp đỉnh trong đồ thị có trọng số (có thể có trọng số âm nhưng không có chu trình âm). Nó sử dụng phương pháp quy hoạch động để cập nhật khoảng cách giữa các cặp đỉnh.
+5. Quy Hoạch Động & Quay Lui
+Bài toán Balo 0/1 (Knapsack 0/1 Problem)
+function Knapsack(weights, values: array of Integer; n, capacity: Integer): Integer;
+var
+  dp: array of array of Integer;
+  i, w: Integer;
+begin
+  SetLength(dp, n + 1, capacity + 1);
+
+  for i := 0 to n do
+    for w := 0 to capacity do
+    begin
+      if (i = 0) or (w = 0) then
+        dp[i][w] := 0
+      else if weights[i - 1] <= w then
+        dp[i][w] := Max(values[i - 1] + dp[i - 1][w - weights[i - 1]], dp[i - 1][w])
+      else
+        dp[i][w] := dp[i - 1][w];
+    end;
+
+  Result := dp[n][capacity];
+end;
+Giải thích: Bài toán Balo 0/1 tìm cách chọn các vật phẩm sao cho tổng giá trị là lớn nhất mà không vượt quá khả năng chứa của balo. Thuật toán sử dụng quy hoạch động để giải quyết bài toán.
+
+Dãy con chung dài nhất (LCS - Longest Common Subsequence)
+function LCS(s1, s2: String): String;
+var
+  dp: array of array of Integer;
+  i, j: Integer;
+begin
+  SetLength(dp, Length(s1) + 1, Length(s2) + 1);
+
+  for i := 0 to Length(s1) do
+    for j := 0 to Length(s2) do
+    begin
+      if (i = 0) or (j = 0) then
+        dp[i][j] := 0
+      else if s1[i] = s2[j] then
+        dp[i][j] := dp[i - 1][j - 1] + 1
+      else
+        dp[i][j] := Max(dp[i - 1][j], dp[i][j - 1]);
+    end;
+
+  // Truy vết để tìm dãy con chung dài nhất
+  i := Length(s1);
+  j := Length(s2);
+  Result := '';
+  while (i > 0) and (j > 0) do
+  begin
+    if s1[i] = s2[j] then
+    begin
+      Result := s1[i] + Result;
+      i := i - 1;
+      j := j - 1;
+    end
+    else if dp[i - 1][j] > dp[i][j - 1] then
+      i := i - 1
+    else
+      j := j - 1;
+  end;
+end;
+Giải thích: Thuật toán tìm dãy con chung dài nhất giữa hai chuỗi bằng cách sử
+
+5. Quy Hoạch Động & Quay Lui (tiếp tục)
+Chuỗi con đối xứng dài nhất
+function LongestPalindromicSubsequence(s: String): String;
+var
+  dp: array of array of Integer;
+  i, j: Integer;
+begin
+  SetLength(dp, Length(s), Length(s));
+
+  for i := 0 to Length(s) - 1 do
+    dp[i][i] := 1;
+
+  for i := Length(s) - 2 downto 0 do
+    for j := i + 1 to Length(s) - 1 do
+    begin
+      if s[i] = s[j] then
+        dp[i][j] := dp[i + 1][j - 1] + 2
+      else
+        dp[i][j] := Max(dp[i + 1][j], dp[i][j - 1]);
+    end;
+
+  // Truy vết để tìm chuỗi con đối xứng dài nhất
+  i := 0;
+  j := Length(s) - 1;
+  Result := '';
+  while i <= j do
+  begin
+    if s[i] = s[j] then
+    begin
+      Result := Result + s[i];
+      i := i + 1;
+      j := j - 1;
+    end
+    else if dp[i + 1][j] > dp[i][j - 1] then
+      i := i + 1
+    else
+      j := j - 1;
+  end;
+end;
+Giải thích: Thuật toán tìm chuỗi con đối xứng dài nhất trong một chuỗi bằng cách sử dụng quy hoạch động. Nó xây dựng một bảng dp để lưu trữ độ dài của chuỗi con đối xứng dài nhất cho các chuỗi con khác nhau.
+
+Quay lui (Backtracking) - Bài toán N-Queen
+procedure SolveNQueens(n: Integer);
+var
+  board: array of array of Integer;
+
+  function IsSafe(row, col: Integer): Boolean;
+  var
+    i, j: Integer;
+  begin
+    for i := 0 to row - 1 do
+      if board[i][col] = 1 then
+        Exit(False);
+
+    i := row - 1;
+    j := col - 1;
+    while (i >= 0) and (j >= 0) do
+    begin
+      if board[i][j] = 1 then
+        Exit(False);
+      i := i - 1;
+      j := j - 1;
+    end;
+
+    i := row - 1;
+    j := col + 1;
+    while (i >= 0) and (j < n) do
+    begin
+      if board[i][j] = 1 then
+        Exit(False);
+      i := i - 1;
+      j := j + 1;
+    end;
+
+    Result := True;
+  end;
+
+  procedure PlaceQueen(row: Integer);
+  var
+    col: Integer;
+  begin
+    if row = n then
+    begin
+      // In bàn cờ
+      for var i := 0 to n - 1 do
+      begin
+        for var j := 0 to n - 1 do
+          Write(board[i][j], ' ');
+        WriteLn;
+      end;
+      WriteLn;
+      Exit;
+    end;
+
+    for col := 0 to n - 1 do
+    begin
+      if IsSafe(row, col) then
+      begin
+        board[row][col] := 1;
+        PlaceQueen(row + 1);
+        board[row][col] := 0; // Quay lui
+      end;
+    end;
+  end;
+
+begin
+  SetLength(board, n, n);
+  for var i := 0 to n - 1 do
+    for var j := 0 to n - 1 do
+      board[i][j] := 0;
+
+  PlaceQueen(0);
+end;
+Giải thích: Bài toán N-Queen đặt N quân hậu trên bàn cờ NxN sao cho không có hai quân hậu nào tấn công lẫn nhau. Thuật toán sử dụng quay lui để thử các vị trí đặt quân hậu và kiểm tra tính hợp lệ.
+
+
+5. Quy Hoạch Động & Quay Lui
+Sinh hoán vị, tổ hợp, chỉnh hợp
+Sinh hoán vị
+procedure GeneratePermutations(arr: array of Integer; start, n: Integer);
+var
+  i: Integer;
+begin
+  if start = n - 1 then
+  begin
+    for i := 0 to n - 1 do
+      Write(arr[i], ' ');
+    WriteLn;
+    Exit;
+  end;
+
+  for i := start to n - 1 do
+  begin
+    var temp := arr[start];
+    arr[start] := arr[i];
+    arr[i] := temp;
+
+    GeneratePermutations(arr, start + 1, n);
+
+    temp := arr[start];
+    arr[start] := arr[i];
+    arr[i] := temp;
+  end;
+end;
+Giải thích: Thuật toán sinh tất cả các hoán vị của một mảng bằng cách đổi chỗ các phần tử và sử dụng đệ quy để sinh các hoán vị tiếp theo.
+
+Sinh tổ hợp
+procedure GenerateCombinations(arr: array of Integer; n, k: Integer; start: Integer; currentCombination: array of Integer; index: Integer);
+var
+  i: Integer;
+begin
+  if index = k then
+  begin
+    for i := 0 to k - 1 do
+      Write(currentCombination[i], ' ');
+    WriteLn;
+    Exit;
+  end;
+
+  for i := start to n - 1 do
+  begin
+    currentCombination[index] := arr[i];
+    GenerateCombinations(arr, n, k, i + 1, currentCombination, index + 1);
+  end;
+end;
+Giải thích: Thuật toán sinh tất cả các tổ hợp k phần tử từ một mảng bằng cách sử dụng đệ quy và một mảng tạm để lưu trữ tổ hợp hiện tại.
+
+Sinh chỉnh hợp
+procedure GenerateArrangements(arr: array of Integer; n, k: Integer; used: array of Boolean; currentArrangement: array of Integer; index: Integer);
+var
+  i: Integer;
+begin
+  if index = k then
+  begin
+    for i := 0 to k - 1 do
+      Write(currentArrangement[i], ' ');
+    WriteLn;
+    Exit;
+  end;
+
+  for i := 0 to n - 1 do
+  begin
+    if not used[i] then
+    begin
+      used[i] := True;
+      currentArrangement[index] := arr[i];
+      GenerateArrangements(arr, n, k, used, currentArrangement, index + 1);
+      used[i] := False;
+    end;
+  end;
+end;
+Giải thích: Thuật toán sinh tất cả các chỉnh hợp k phần tử từ một mảng bằng cách sử dụng đệ quy và một mảng used để theo dõi các phần tử đã được sử dụng.
+
+6. Thuật toán Xử lý Chuỗi
+Tìm kiếm chuỗi (KMP, Rabin-Karp)
+KMP (Knuth-Morris-Pratt)
+procedure ComputeLPSArray(pattern: String; var lps: array of Integer);
+var
+  len, i: Integer;
+begin
+  len := 0;
+  lps[0] := 0;
+  i := 1;
+
+  while i < Length(pattern) do
+  begin
+    if pattern[i] = pattern[len] then
+    begin
+      len := len + 1;
+      lps[i] := len;
+      i := i + 1;
+    end
+    else
+    begin
+      if len <> 0 then
+        len := lps[len - 1]
+      else
+      begin
+        lps[i] := 0;
+        i := i + 1;
+      end;
+    end;
+  end;
+end;
+
+procedure KMPSearch(text, pattern: String);
+var
+  lps: array of Integer;
+  i, j: Integer;
+begin
+  SetLength(lps, Length(pattern));
+  ComputeLPSArray(pattern, lps);
+
+  i := 0;
+  j := 0;
+
+  while i < Length(text) do
+  begin
+    if pattern[j] = text[i] then
+    begin
+      i := i + 1;
+      j := j + 1;
+    end;
+    if j = Length(pattern) then
+    begin
+      WriteLn('Pattern found at index ', i - j);
+      j := lps[j - 1];
+    end
+    else if (i < Length(text)) and (pattern[j] <> text[i]) then
+    begin
+      if j <> 0 then
+        j := lps[j - 1]
+      else
+        i := i + 1;
+    end;
+  end;
+end;
+Giải thích: Thuật toán KMP tìm kiếm một chuỗi con trong một chuỗi lớn bằng cách sử dụng bảng LPS (Longest Prefix Suffix) để bỏ qua các so sánh không cần thiết, giúp tăng hiệu suất tìm kiếm.
+
+Rabin-Karp
+procedure RabinKarpSearch(text, pattern: String; prime: Integer);
+var
+  i, j, h, p, t, n, m: Integer;
+begin
+  n := Length(text);
+  m := Length(pattern);
+  h := 1;
+  p := 0;
+  t := 0;
+
+  for i := 0 to m - 2 do
+    h := (h * 256) mod prime;
+
+  for i := 0 to m - 1 do
+  begin
+    p := (256 * p + Ord(pattern[i])) mod prime;
+    t := (256 * t + Ord(text[i])) mod prime;
+  end;
+
+  for i := 0 to n - m do
+  begin
+    if p = t then
+    begin
+      for j := 0 to m - 1 do
+        if text[i + j] <> pattern[j] then
+          Break;
+
+      if j = m then
+        WriteLn('Pattern found at index ', i);
+    end;
+
+    if i < n - m then
+    begin
+      t := (256 * (t - Ord(text[i]) * h) + Ord(text[i + m])) mod prime;
+      if t < 0 then
+        t := t + prime;
+    end;
+  end;
+end;
+Giải thích: Thuật toán Rabin-Karp sử dụng hàm băm để tìm kiếm chuỗi con. Nó tính toán giá trị băm của chuỗi con và so sánh với giá trị băm của chuỗi mẫu. Nếu khớp, nó kiểm tra từng ký tự để xác nhận.
+
+Chuỗi con đối xứng dài nhất
+function LongestPalindromicSubstring(s: String): String;
+var
+  start, maxLength, i, low, high: Integer;
+begin
+  start := 0;
+  maxLength := 1;
+
+  for i := 1 to Length(s) - 1 do
+  begin
+    low := i - 1;
+    high := i;
+    while (low >= 0) and (high < Length(s)) and (s[low] = s[high]) do
+    begin
+      if high - low + 1 > maxLength then
+      begin
+        start := low;
+        maxLength := high - low + 1;
+      end;
+      low := low - 1;
+      high := high + 1;
+    end;
+
+    low := i - 1;
+    high := i + 1;
+    while (low >= 0) and (high < Length(s)) and (s[low] = s[high]) do
+    begin
+      if high - low + 1 > maxLength then
+      begin
+        start := low;
+        maxLength := high - low + 1;
+      end;
+      low := low - 1;
+      high := high + 1;
+    end;
+  end;
+
+  Result := Copy(s, start + 1, maxLength);
+end;
+Giải thích: Thuật toán tìm chuỗi con đối xứng dài nhất trong một chuỗi bằng cách mở rộng từ mỗi ký tự và từ mỗi cặp ký tự liền kề.
+
+7. Thuật toán Xử lý Mảng & Ma Trận
+Tìm phần tử lớn nhất / nhỏ nhất trong mảng
+function FindMax(arr: array of Integer): Integer;
+var
+  i, max: Integer;
+begin
+  max := arr[0];
+  for i := 1 to Length(arr) - 1 do
+    if arr[i] > max then
+      max := arr[i];
+  Result := max;
+end;
+
+function FindMin(arr: array of Integer): Integer;
+var
+  i, min: Integer;
+begin
+  min := arr[0];
+  for i := 1 to Length(arr) - 1 do
+    if arr[i] < min then
+      min := arr[i];
+  Result := min;
+end;
+Giải thích: Thuật toán duyệt qua mảng để tìm phần tử lớn nhất hoặc nhỏ nhất.
+
+Tìm tổng dãy con lớn nhất (Kadane’s Algorithm)
+function MaxSubarraySum(arr: array of Integer): Integer;
+var
+  maxCurrent, maxGlobal, i: Integer;
+begin
+  maxCurrent := arr[0];
+  maxGlobal := arr[0];
+
+  for i := 1 to Length(arr) - 1 do
+  begin
+    maxCurrent := Max(arr[i], maxCurrent + arr[i]);
+    if maxCurrent > maxGlobal then
+      maxGlobal := maxCurrent;
+  end;
+
+  Result := maxGlobal;
+end;
+Giải thích: Thuật toán Kadane tìm tổng lớn nhất của một dãy con liên tiếp trong mảng bằng cách duyệt qua mảng một lần.
+
+Xoay ma trận 90 độ
+procedure RotateMatrix90(var matrix: array of array of Integer; n: Integer);
+var
+  i, j: Integer;
+  temp: Integer;
+begin
+  for i := 0 to n div 2 - 1 do
+    for j := i to n - i - 2 do
+    begin
+      temp := matrix[i][j];
+      matrix[i][j] := matrix[n - j - 1][i];
+      matrix[n - j - 1][i] := matrix[n - i - 1][n - j - 1];
+      matrix[n - i - 1][n - j - 1] := matrix[j][n - i - 1];
+      matrix[j][n - i - 1] := temp;
+    end;
+end;
+Giải thích: Thuật toán xoay ma trận 90 độ theo chiều kim đồng hồ bằng cách hoán đổi các phần tử theo từng lớp.
+
+8. Thuật toán Tính Độ Bền
+function StrongestDivisor(n: Integer): Integer;
+var
+  i, maxStrength, strongestDivisor: Integer;
+begin
+  maxStrength := 0;
+  strongestDivisor := 1;
+
+  for i := 1 to n do
+    if n mod i = 0 then
+    begin
+      var strength := SumOfDigits(i);
+      if strength > maxStrength then
+      begin
+        maxStrength := strength;
+        strongestDivisor := i;
+      end;
+    end;
+
+  Result := strongestDivisor;
+end;
+
+function SumOfDigits(num: Integer): Integer;
+begin
+  Result := 0;
+  while num > 0 do
+  begin
+    Result := Result + num mod 10;
+    num := num div 10;
+  end;
+end;
+Giải thích: Thuật toán tìm ước số của một số có tổng các chữ số lớn nhất (ước bền vững nhất).
+
+Số có độ bền công/ nhân cao nhất
+function HighestProductivityNumber(n: Integer): Integer;
+var
+  i, maxProductivity, number: Integer;
+begin
+  maxProductivity := 0;
+  number := 1;
+
+  for i := 1 to n do
+  begin
+    var productivity := ProductOfDigits(i);
+    if productivity > maxProductivity then
+    begin
+      maxProductivity := productivity;
+      number := i;
+    end;
+  end;
+
+  Result := number;
+end;
+
+function ProductOfDigits(num: Integer): Integer;
+begin
+  Result := 1;
+  while num > 0 do
+  begin
+    Result := Result * (num mod 10);
+    num := num div 10;
+  end;
+end;
+Giải thích: Thuật toán tìm số có tích các chữ số lớn nhất (độ bền nhân cao nhất) trong phạm vi từ 1 đến n.
+
+Độ bền của 1 số có hai chữ số
+function CalculateDoben(n: Integer): Integer;
+begin
+  Result := 0;
+  while n >= 10 do
+  begin
+    n := (n div 10) * (n mod 10);
+    Result := Result + 1;
+  end;
+end;
+Giải thích: Thuật toán tính độ bền của một số có hai chữ số bằng cách liên tục nhân hai chữ số của số đó cho đến khi số đó trở thành một chữ số. Độ bền là số lần thực hiện phép nhân.
