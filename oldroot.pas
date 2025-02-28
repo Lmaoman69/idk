@@ -75,6 +75,32 @@ begin
  vigenered:=lmao;
 end;
 {-----------------------------------------------------------------------}
+function atbash(text:string):string;
+var c:char;
+    i,lmao:integer;
+    idk:string;
+begin
+ idk:='';
+  for i:=1 to length(text) do
+   begin
+   c:=text[i];
+   begin
+    if c in ['a'..'z'] then
+     begin
+      lmao:=ord(c) - ord('a');
+      idk:=idk + chr(ord('z') - lmao);
+     end
+    else if c in ['A'..'Z'] then
+     begin
+      lmao:=ord(c) - ord('A');
+      idk:=idk + chr(ord('Z') - lmao);
+     end
+    else
+     idk:=idk + c;
+   end;
+  atbash:=idk;
+end;
+end;
 {-----------------------------------------------------------------------}
 var text,key:string;
     shift,matma,cach:integer;
@@ -108,7 +134,7 @@ clrscr;
  if matma = 1 then
  begin
   clrscr;
-  writeln('Ma ceasar');
+  writeln('Mat ma Ceasar');
   write('Nhap chuoi ki tu:');
    readln(text);
   write('Nhap so buoc:');
@@ -125,6 +151,7 @@ clrscr;
 {------------------------------------------------------------------------------------}
  if matma = 2 then
  begin
+  writeln('Mat ma Vigenere');
   write('Nhap chuoi ki tu:');
    readln(text);
   write('Nhap key:');
@@ -140,5 +167,21 @@ clrscr;
     write('Chuoi ki tu sau khi giai ma la:',vigenered(text,key));
    end;
  end;
+{-----------------------------------------------------------------------------------}
+ if matma = 3 then
+  begin
+   clrscr;
+   writeln('Mat ma Atbash');
+   write('Nhap chuoi ki tu:');
+    readln(text);
+   if cach = 1 then
+    begin
+     write('Chuoi ki tu sau khi ma hoa la:',atbash(text));
+    end
+   else
+    begin
+     write('Chuoi ki tu sau khi giai ma la:',atbash(text));
+    end;
+  end;
 readln
 end.
