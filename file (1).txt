@@ -13,6 +13,7 @@ begin
         arr[j + 1] := temp;
       end;
 end;
+{============================================================================}
 ex:
 program bt1;
 uses crt;
@@ -40,11 +41,12 @@ clrscr;
    readln(a[i]);
   end;
  bbs(a,idk);
- writeln('array after sort:');
+  writeln('array after sort:');
  for i:=1 to idk do
- write(a[i],' ');
+  write(a[i],' ');
 readln
 end.
+{=================================================================================}
 2. Thuật toán Tìm kiếm
 Tìm kiếm tuyến tính (Linear Search)
 function LinearSearch(arr: array of Integer; n, key: Integer): Integer;
