@@ -47,6 +47,7 @@ clrscr;
 readln
 end.
 {=================================================================================}
+
 2. Thuật toán Tìm kiếm
 Tìm kiếm tuyến tính (Linear Search)
 function LinearSearch(arr: array of Integer; n, key: Integer): Integer;
@@ -58,6 +59,43 @@ begin
       Exit(i);
   Result := -1; // Không tìm thấy
 end;
+{=================================================================================}
+ex:
+program bt2;
+uses crt;
+function search(arr:array of integer;n,key:integer):integer;
+var i:integer;
+begin
+ for i:=0 to n - 1 do
+  if arr[i] = key then
+   begin
+    search:=i+1;
+    exit(i);
+   end
+  else  
+   search:=-1;
+end;
+var idk:array[word] of integer;
+    n,i,key,pos:integer;
+begin
+clrscr;
+ write('input number of arr:');
+  readln(n);
+ for i:=1 to n do
+  begin
+   write('input idk[',i,']:');
+   readln(idk[i]);
+  end;
+ write('input key:');
+  readln(key);
+ pos:=search(idk,n,key);
+  if key <> -1 then
+   writeln('found ',key,' in idk[',pos,']')
+  else
+   writeln('not found');
+readln   
+end.  
+{================================================================}
 
 3. Thuật toán Số học
 Tính giai thừa
