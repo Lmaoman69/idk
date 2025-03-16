@@ -13,7 +13,38 @@ begin
         arr[j + 1] := temp;
       end;
 end;
-
+ex:
+program bt1;
+uses crt;
+procedure bbs(var arr:array of integer;n:integer);
+var i,j,temp:integer;
+begin
+ for i:= 0 to n - 2 do
+  for j:= 0 to n - 2 - i do
+   if arr[j] > arr[j+1] then 
+   begin
+    temp:=arr[j];
+    arr[j]:=arr[j+1];
+    arr[j+1]:=temp;
+   end;
+end;
+var a:array[word] of integer;
+    i,idk,lmao,nah:integer;
+begin
+clrscr;
+ write('input number of array:');
+  readln(idk);
+ for i:=1 to idk do
+  begin
+   write('input a[',i,']:');
+   readln(a[i]);
+  end;
+ bbs(a,idk);
+ writeln('array after sort:');
+ for i:=1 to idk do
+ write(a[i],' ');
+readln
+end.
 2. Thuật toán Tìm kiếm
 Tìm kiếm tuyến tính (Linear Search)
 function LinearSearch(arr: array of Integer; n, key: Integer): Integer;
