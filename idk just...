@@ -1,0 +1,1002 @@
+program TongHopCacBaiToan;
+uses
+  SysUtils;
+
+// Các hàm và thủ tục cần thiết
+
+// 1. Tính tổng, hiệu, tích, thương hai số nguyên
+procedure TinhToanHaiSo;
+var
+  a, b: integer;
+begin
+  write('Nhap hai so nguyen a va b: ');
+  readln(a, b);
+  writeln('Tong: ', a + b);
+  writeln('Hieu: ', a - b);
+  writeln('Tich: ', a * b);
+  if b <> 0 then
+    writeln('Thuong: ', a div b)
+  else
+    writeln('Khong the chia cho 0');
+end;
+
+// 2. Kiểm tra số nguyên tố
+procedure KiemTraSoNguyenTo;
+var
+  n, i: integer;
+  laSoNguyenTo: boolean;
+begin
+  write('Nhap so nguyen n: ');
+  readln(n);
+  laSoNguyenTo := true;
+  if n <= 1 then
+    laSoNguyenTo := false
+  else
+    for i := 2 to trunc(sqrt(n)) do
+      if n mod i = 0 then
+      begin
+        laSoNguyenTo := false;
+        break;
+      end;
+  if laSoNguyenTo then
+    writeln(n, ' la so nguyen to')
+  else
+    writeln(n, ' khong la so nguyen to');
+end;
+
+// 3. In bảng cửu chương
+procedure InBangCuuChuong;
+var
+  n, i: integer;
+begin
+  write('Nhap so n: ');
+  readln(n);
+  for i := 1 to 10 do
+    writeln(n, ' x ', i, ' = ', n * i);
+end;
+
+// 4. Tìm số lớn nhất, nhỏ nhất trong ba số
+procedure TimMaxMinBaSo;
+var
+  a, b, c, maxVal, minVal: integer;
+begin
+  write('Nhap ba so nguyen a, b, c: ');
+  readln(a, b, c);
+  maxVal := a;
+  if b > maxVal then maxVal := b;
+  if c > maxVal then maxVal := c;
+  minVal := a;
+  if b < minVal then minVal := b;
+  if c < minVal then minVal := c;
+  writeln('So lon nhat: ', maxVal);
+  writeln('So nho nhat: ', minVal);
+end;
+
+// 5. Kiểm tra số hoàn hảo
+procedure KiemTraSoHoanHao;
+var
+  n, i, sum: integer;
+begin
+  write('Nhap so nguyen n: ');
+  readln(n);
+  sum := 0;
+  for i := 1 to n - 1 do
+    if n mod i = 0 then
+      sum := sum + i;
+  if sum = n then
+    writeln(n, ' la so hoan hao')
+  else
+    writeln(n, ' khong la so hoan hao');
+end;
+
+// 6. Dãy Fibonacci
+procedure DayFibonacci;
+var
+  n, i: integer;
+  fib: array of integer;
+begin
+  write('Nhap so phan tu cua day Fibonacci: ');
+  readln(n);
+  SetLength(fib, n);
+  fib[0] := 0;
+  if n > 1 then
+    fib[1] := 1;
+  for i := 2 to n - 1 do
+    fib[i] := fib[i - 1] + fib[i - 2];
+  for i := 0 to n - 1 do
+    write(fib[i], ' ');
+  writeln;
+end;
+
+// 7. Tìm số nguyên tố nhỏ hơn n
+procedure TimSoNguyenToNhoHonN;
+var
+  n, i, j: integer;
+  isPrime: array of boolean;
+begin
+  write('Nhap so nguyen n: ');
+  readln(n);
+  SetLength(isPrime, n);
+  for i := 2 to n - 1 do
+    isPrime[i] := true;
+  for i := 2 to trunc(sqrt(n)) do
+    if isPrime[i] then
+      for j := i * i to n - 1 do
+        if j mod i = 0 then
+          isPrime[j] := false;
+  writeln('Cac so nguyen to nho hon ', n, ' la:');
+  for i := 2 to n - 1 do
+    if isPrime[i] then
+      write(i, ' ');
+  writeln;
+end;
+
+// 8. Tìm phần tử lớn nhất, nhỏ nhất trong mảng
+procedure TimMaxMinMang;
+var
+  arr: array of integer;
+  i, n, maxVal, minVal: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  maxVal := arr[0];
+  minVal := arr[0];
+  for i := 1 to n - 1 do
+  begin
+    if arr[i] > maxVal then
+      maxVal := arr[i];
+    if arr[i] < minVal then
+      minVal := arr[i];
+  end;
+  writeln('Phan tu lon nhat: ', maxVal);
+  writeln('Phan tu nho nhat: ', minVal);
+end;
+
+// 9. Sắp xếp mảng tăng dần
+procedure SapXepMangTangDan;
+var
+  arr: array of integer;
+  i, j, n, temp: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  for i := 0 to n - 2 do
+    for j := i + 1 to n - 1 do
+      if arr[i] > arr[j] then
+      begin
+        temp := arr[i];
+        arr[i] := arr[j];
+        arr[j] := temp;
+      end;
+  writeln('Mang sau khi sap xep:');
+  for i := 0 to n - 1 do
+    write(arr[i], ' ');
+  writeln;
+end;
+
+// 10. Đếm số lần xuất hiện của x trong mảng
+procedure DemSoLanXuatHien;
+var
+  arr: array of integer;
+  i, n, x, count: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  write('Nhap so x can dem: ');
+  readln(x);
+  count := 0;
+  for i := 0 to n - 1 do
+    if arr[i] = x then
+      count := count + 1;
+  writeln('So lan xuat hien cua ', x, ' la: ', count);
+end;
+
+// 11. Đệ quy tính giai thừa
+function GiaiThua(n: integer): integer;
+begin
+  if n = 0 then
+    GiaiThua := 1
+  else
+    GiaiThua := n * GiaiThua(n - 1);
+end;
+
+procedure TinhGiaiThua;
+var
+  n: integer;
+begin
+  write('Nhap so nguyen n: ');
+  readln(n);
+  writeln('Giai thua cua ', n, ' la: ', GiaiThua(n));
+end;
+
+// 12. Đệ quy dãy Fibonacci
+function Fibonacci(n: integer): integer;
+begin
+  if n = 0 then
+    Fibonacci := 0
+  else if n = 1 then
+    Fibonacci := 1
+  else
+    Fibonacci := Fibonacci(n - 1) + Fibonacci(n - 2);
+end;
+
+procedure InFibonacciDeQuy;
+var
+  n: integer;
+begin
+  write('Nhap so nguyen n: ');
+  readln(n);
+  writeln('So Fibonacci thu ', n, ' la: ', Fibonacci(n));
+end;
+
+// 13. Tìm ƯCLN & BCNN
+function UCLN(a, b: integer): integer;
+begin
+  if b = 0 then
+    UCLN := a
+  else
+    UCLN := UCLN(b, a mod b);
+end;
+
+function BCNN(a, b: integer): integer;
+begin
+  BCNN := (a * b) div UCLN(a, b);
+end;
+
+procedure TimUCLNBCNN;
+var
+  a, b: integer;
+begin
+  write('Nhap hai so nguyen a va b: ');
+  readln(a, b);
+  writeln('UCLN cua ', a, ' va ', b, ' la: ', UCLN(a, b));
+  writeln('BCNN cua ', a, ' va ', b, ' la: ', BCNN(a, b));
+end;
+
+// 14. Tìm kiếm nhị phân
+function BinarySearch(arr: array of integer; left, right, x: integer): integer;
+var
+  mid: integer;
+begin
+  if right >= left then
+  begin
+    mid := left + (right - left) div 2;
+    if arr[mid] = x then
+      BinarySearch := mid
+    else if arr[mid] > x then
+      BinarySearch := BinarySearch(arr, left, mid - 1, x)
+    else
+      BinarySearch := BinarySearch(arr, mid + 1, right, x)
+  end
+  else
+    BinarySearch := -1;
+end;
+
+procedure TimKiemNhiPhan;
+var
+  arr: array of integer;
+  n, i, x, result: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  write('Nhap so can tim: ');
+  readln(x);
+  result := BinarySearch(arr, 0, n - 1, x);
+  if result = -1 then
+    writeln('Khong tim thay ', x, ' trong mang')
+  else
+    writeln('Tim thay ', x, ' tai vi tri ', result + 1);
+end;
+
+// 15. Giải bài toán Tháp Hà Nội
+procedure Hanoi(n: integer; fromRod, toRod, auxRod: char);
+begin
+  if n = 1 then
+    writeln('Di chuyen dia 1 tu ', fromRod, ' den ', toRod)
+  else
+  begin
+    Hanoi(n - 1, fromRod, auxRod, toRod);
+    writeln('Di chuyen dia ', n, ' tu ', fromRod, ' den ', toRod);
+    Hanoi(n - 1, auxRod, toRod, fromRod);
+  end;
+end;
+
+procedure GiaiThapHaNoi;
+var
+  n: integer;
+begin
+  write('Nhap so dia: ');
+  readln(n);
+  Hanoi(n, 'A', 'C', 'B');
+end;
+
+// 16. Sinh hoán vị của mảng
+procedure Swap(var a, b: integer);
+var
+  temp: integer;
+begin
+  temp := a;
+  a := b;
+  b := temp;
+end;
+
+procedure GeneratePermutations(arr: array of integer; start, n: integer);
+var
+  i: integer;
+begin
+  if start = n then
+  begin
+    for i := 0 to n - 1 do
+      write(arr[i], ' ');
+    writeln;
+  end
+  else
+  begin
+    for i := start to n - 1 do
+    begin
+      Swap(arr[start], arr[i]);
+      GeneratePermutations(arr, start + 1, n);
+      Swap(arr[start], arr[i]);
+    end;
+  end;
+end;
+
+procedure SinhHoanVi;
+var
+  arr: array of integer;
+  n, i: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  writeln('Cac hoan vi cua mang:');
+  GeneratePermutations(arr, 0, n);
+end;
+
+// 17. Dãy con có tổng lớn nhất
+function MaxSubArraySum(arr: array of integer; n: integer): integer;
+var
+  maxEndingHere, maxSoFar, i: integer;
+begin
+  maxEndingHere := arr[0];
+  maxSoFar := arr[0];
+  for i := 1 to n - 1 do
+  begin
+    maxEndingHere := max(arr[i], maxEndingHere + arr[i]);
+    maxSoFar := max(maxSoFar, maxEndingHere);
+  end;
+  MaxSubArraySum := maxSoFar;
+end;
+
+procedure DayConTongLonNhat;
+var
+  arr: array of integer;
+  n, i: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  writeln('Tong lon nhat cua day con la: ', MaxSubArraySum(arr, n));
+end;
+
+// 18. Biểu diễn số thành tổng hai số nguyên tố
+function IsPrime(n: integer): boolean;
+var
+  i: integer;
+begin
+  if n <= 1 then
+    IsPrime := false
+  else
+  begin
+    IsPrime := true;
+    for i := 2 to trunc(sqrt(n)) do
+      if n mod i = 0 then
+      begin
+        IsPrime := false;
+        break;
+      end;
+  end;
+end;
+
+procedure BieuDienSoNguyenTo;
+var
+  n, i: integer;
+  found: boolean;
+begin
+  write('Nhap so nguyen n: ');
+  readln(n);
+  found := false;
+  for i := 2 to n div 2 do
+  begin
+    if IsPrime(i) and IsPrime(n - i) then
+    begin
+      writeln(n, ' = ', i, ' + ', n - i);
+      found := true;
+    end;
+  end;
+  if not found then
+    writeln('Khong the bieu dien ', n, ' thanh tong hai so nguyen to');
+end;
+
+// 19. Đường đi ngắn nhất trong mê cung
+const
+  MAX = 100;
+var
+  maze: array[0..MAX, 0..MAX] of integer;
+  dist: array[0..MAX, 0..MAX] of integer;
+  visited: array[0..MAX, 0..MAX] of boolean;
+  dx: array[1..4] of integer = (-1, 1, 0, 0);
+  dy: array[1..4] of integer = (0, 0, -1, 1);
+  n, m: integer;
+
+procedure BFS(startX, startY: integer);
+var
+  queue: array[1..MAX * MAX] of record
+    x, y: integer;
+  end;
+  front, rear, i, newX, newY: integer;
+begin
+  front := 1;
+  rear := 1;
+  queue[rear].x := startX;
+  queue[rear].y := startY;
+  visited[startX][startY] := true;
+  dist[startX][startY] := 0;
+  while front <= rear do
+  begin
+    for i := 1 to 4 do
+    begin
+      newX := queue[front].x + dx[i];
+      newY := queue[front].y + dy[i];
+      if (newX >= 1) and (newX <= n) and (newY >= 1) and (newY <= m) and (maze[newX][newY] = 0) and not visited[newX][newY] then
+      begin
+        rear := rear + 1;
+        queue[rear].x := newX;
+        queue[rear].y := newY;
+        visited[newX][newY] := true;
+        dist[newX][newY] := dist[queue[front].x][queue[front].y] + 1;
+      end;
+    end;
+    front := front + 1;
+  end;
+end;
+
+procedure DuongDiNganNhat;
+var
+  i, j, startX, startY, endX, endY: integer;
+begin
+  write('Nhap kich thuoc me cung (n x m): ');
+  readln(n, m);
+  writeln('Nhap ma tran me cung:');
+  for i := 1 to n do
+    for j := 1 to m do
+      read(maze[i][j]);
+  write('Nhap vi tri bat dau (x, y): ');
+  readln(startX, startY);
+  write('Nhap vi tri ket thuc (x, y): ');
+  readln(endX, endY);
+  BFS(startX, startY);
+  if visited[endX][endY] then
+    writeln('Khoang cach ngan nhat: ', dist[endX][endY])
+
+program TongHopTatCaBaiToan;
+uses
+  SysUtils;
+
+// Các hàm và thủ tục cần thiết
+
+// === Các bài toán cơ bản ===
+
+// 1. Tính tổng, hiệu, tích, thương hai số nguyên
+procedure TinhToanHaiSo;
+var
+  a, b: integer;
+begin
+  write('Nhap hai so nguyen a va b: ');
+  readln(a, b);
+  writeln('Tong: ', a + b);
+  writeln('Hieu: ', a - b);
+  writeln('Tich: ', a * b);
+  if b <> 0 then
+    writeln('Thuong: ', a div b)
+  else
+    writeln('Khong the chia cho 0');
+end;
+
+// 2. Kiểm tra số nguyên tố
+procedure KiemTraSoNguyenTo;
+var
+  n, i: integer;
+  laSoNguyenTo: boolean;
+begin
+  write('Nhap so nguyen n: ');
+  readln(n);
+  laSoNguyenTo := true;
+  if n <= 1 then
+    laSoNguyenTo := false
+  else
+    for i := 2 to trunc(sqrt(n)) do
+      if n mod i = 0 then
+      begin
+        laSoNguyenTo := false;
+        break;
+      end;
+  if laSoNguyenTo then
+    writeln(n, ' la so nguyen to')
+  else
+    writeln(n, ' khong la so nguyen to');
+end;
+
+// 3. In bảng cửu chương
+procedure InBangCuuChuong;
+var
+  n, i: integer;
+begin
+  write('Nhap so n: ');
+  readln(n);
+  for i := 1 to 10 do
+    writeln(n, ' x ', i, ' = ', n * i);
+end;
+
+// 4. Tìm số lớn nhất, nhỏ nhất trong ba số
+procedure TimMaxMinBaSo;
+var
+  a, b, c, maxVal, minVal: integer;
+begin
+  write('Nhap ba so nguyen a, b, c: ');
+  readln(a, b, c);
+  maxVal := a;
+  if b > maxVal then maxVal := b;
+  if c > maxVal then maxVal := c;
+  minVal := a;
+  if b < minVal then minVal := b;
+  if c < minVal then minVal := c;
+  writeln('So lon nhat: ', maxVal);
+  writeln('So nho nhat: ', minVal);
+end;
+
+// 5. Kiểm tra số hoàn hảo
+procedure KiemTraSoHoanHao;
+var
+  n, i, sum: integer;
+begin
+  write('Nhap so nguyen n: ');
+  readln(n);
+  sum := 0;
+  for i := 1 to n - 1 do
+    if n mod i = 0 then
+      sum := sum + i;
+  if sum = n then
+    writeln(n, ' la so hoan hao')
+  else
+    writeln(n, ' khong la so hoan hao');
+end;
+
+// === Các bài toán về chuỗi ===
+
+// 6. Đảo ngược chuỗi
+procedure DaoNguocChuoi;
+var
+  s, reversed: string;
+  i: integer;
+begin
+  write('Nhap chuoi: ');
+  readln(s);
+  reversed := '';
+  for i := length(s) downto 1 do
+    reversed := reversed + s[i];
+  writeln('Chuoi dao nguoc: ', reversed);
+end;
+
+// 7. Đếm số ký tự trong chuỗi
+procedure DemSoKyTu;
+var
+  s: string;
+begin
+  write('Nhap chuoi: ');
+  readln(s);
+  writeln('So ky tu trong chuoi: ', length(s));
+end;
+
+// 8. Đếm số từ trong chuỗi
+procedure DemSoTu;
+var
+  s: string;
+  i, count: integer;
+begin
+  write('Nhap chuoi: ');
+  readln(s);
+  count := 0;
+  for i := 1 to length(s) do
+    if (s[i] <> ' ') and ((i = 1) or (s[i - 1] = ' ')) then
+      count := count + 1;
+  writeln('So tu trong chuoi: ', count);
+end;
+
+// 9. Kiểm tra chuỗi đối xứng (palindrome)
+procedure KiemTraPalindrome;
+var
+  s: string;
+  i, len: integer;
+  isPalindrome: boolean;
+begin
+  write('Nhap chuoi: ');
+  readln(s);
+  len := length(s);
+  isPalindrome := true;
+  for i := 1 to len div 2 do
+    if s[i] <> s[len - i + 1] then
+    begin
+      isPalindrome := false;
+      break;
+    end;
+  if isPalindrome then
+    writeln('Chuoi la palindrome')
+  else
+    writeln('Chuoi khong la palindrome');
+end;
+
+// 10. Tìm và thay thế ký tự trong chuỗi
+procedure TimVaThayTheKyTu;
+var
+  s, oldChar, newChar: string;
+begin
+  write('Nhap chuoi: ');
+  readln(s);
+  write('Nhap ky tu can thay the: ');
+  readln(oldChar);
+  write('Nhap ky tu thay the: ');
+  readln(newChar);
+  s := StringReplace(s, oldChar, newChar, [rfReplaceAll]);
+  writeln('Chuoi sau khi thay the: ', s);
+end;
+
+// 11. Chuyển đổi chuỗi thành chữ hoa/chữ thường
+procedure ChuyenDoiChuHoaThuong;
+var
+  s: string;
+  choice: integer;
+begin
+  write('Nhap chuoi: ');
+  readln(s);
+  writeln('1. Chuyen thanh chu hoa');
+  writeln('2. Chuyen thanh chu thuong');
+  write('Lua chon: ');
+  readln(choice);
+  if choice = 1 then
+    s := UpperCase(s)
+  else if choice = 2 then
+    s := LowerCase(s);
+  writeln('Chuoi sau khi chuyen doi: ', s);
+end;
+
+// 12. Tìm vị trí của một chuỗi con trong chuỗi
+procedure TimViTriChuoiCon;
+var
+  s, sub: string;
+  pos: integer;
+begin
+  write('Nhap chuoi: ');
+  readln(s);
+  write('Nhap chuoi con can tim: ');
+  readln(sub);
+  pos := Pos(sub, s);
+  if pos > 0 then
+    writeln('Chuoi con "', sub, '" xuat hien tai vi tri: ', pos)
+  else
+    writeln('Khong tim thay chuoi con "', sub, '" trong chuoi');
+end;
+
+// === Các bài toán về mảng ===
+
+// 13. Tìm phần tử xuất hiện nhiều nhất trong mảng
+procedure TimPhanTuXuatHienNhieuNhat;
+var
+  arr: array of integer;
+  n, i, j, maxCount, count, maxElement: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  maxCount := 0;
+  maxElement := arr[0];
+  for i := 0 to n - 1 do
+  begin
+    count := 0;
+    for j := 0 to n - 1 do
+      if arr[i] = arr[j] then
+        count := count + 1;
+    if count > maxCount then
+    begin
+      maxCount := count;
+      maxElement := arr[i];
+    end;
+  end;
+  writeln('Phan tu xuat hien nhieu nhat: ', maxElement, ' (', maxCount, ' lan)');
+end;
+
+// 14. Tìm phần tử lớn thứ hai trong mảng
+procedure TimPhanTuLonThuHai;
+var
+  arr: array of integer;
+  n, i, first, second: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  first := -MaxInt;
+  second := -MaxInt;
+  for i := 0 to n - 1 do
+  begin
+    if arr[i] > first then
+    begin
+      second := first;
+      first := arr[i];
+    end
+    else if (arr[i] > second) and (arr[i] < first) then
+      second := arr[i];
+  end;
+  if second = -MaxInt then
+    writeln('Khong co phan tu lon thu hai')
+  else
+    writeln('Phan tu lon thu hai: ', second);
+end;
+
+// 15. Tách mảng thành mảng chẵn và mảng lẻ
+procedure TachMangChanLe;
+var
+  arr, chan, le: array of integer;
+  n, i, chanCount, leCount: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  SetLength(chan, n);
+  SetLength(le, n);
+  chanCount := 0;
+  leCount := 0;
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+    if arr[i] mod 2 = 0 then
+    begin
+      chan[chanCount] := arr[i];
+      chanCount := chanCount + 1;
+    end
+    else
+    begin
+      le[leCount] := arr[i];
+      leCount := leCount + 1;
+    end;
+  end;
+  writeln('Mang chan:');
+  for i := 0 to chanCount - 1 do
+    write(chan[i], ' ');
+  writeln;
+  writeln('Mang le:');
+  for i := 0 to leCount - 1 do
+    write(le[i], ' ');
+  writeln;
+end;
+
+// 16. Gộp hai mảng thành một mảng
+procedure GopHaiMang;
+var
+  arr1, arr2, merged: array of integer;
+  n1, n2, i: integer;
+begin
+  write('Nhap so phan tu cua mang 1: ');
+  readln(n1);
+  SetLength(arr1, n1);
+  for i := 0 to n1 - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ' cua mang 1: ');
+    readln(arr1[i]);
+  end;
+  write('Nhap so phan tu cua mang 2: ');
+  readln(n2);
+  SetLength(arr2, n2);
+  for i := 0 to n2 - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ' cua mang 2: ');
+    readln(arr2[i]);
+  end;
+  SetLength(merged, n1 + n2);
+  for i := 0 to n1 - 1 do
+    merged[i] := arr1[i];
+  for i := 0 to n2 - 1 do
+    merged[n1 + i] := arr2[i];
+  writeln('Mang sau khi gop:');
+  for i := 0 to n1 + n2 - 1 do
+    write(merged[i], ' ');
+  writeln;
+end;
+
+// 17. Tìm phần tử trùng lặp trong mảng
+procedure TimPhanTuTrungLap;
+var
+  arr: array of integer;
+  n, i, j: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  writeln('Cac phan tu trung lap:');
+  for i := 0 to n - 1 do
+    for j := i + 1 to n - 1 do
+      if arr[i] = arr[j] then
+        write(arr[i], ' ');
+  writeln;
+end;
+
+// 18. Xóa phần tử trùng lặp trong mảng
+procedure XoaPhanTuTrungLap;
+var
+  arr: array of integer;
+  n, i, j, k: integer;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  for i := 0 to n - 1 do
+    for j := i + 1 to n - 1 do
+      if arr[i] = arr[j] then
+      begin
+        for k := j to n - 2 do
+          arr[k] := arr[k + 1];
+        n := n - 1;
+        j := j - 1;
+      end;
+  SetLength(arr, n);
+  writeln('Mang sau khi xoa trung lap:');
+  for i := 0 to n - 1 do
+    write(arr[i], ' ');
+  writeln;
+end;
+
+// 19. Tìm phần tử duy nhất trong mảng
+procedure TimPhanTuDuyNhat;
+var
+  arr: array of integer;
+  n, i, j: integer;
+  isUnique: boolean;
+begin
+  write('Nhap so phan tu cua mang: ');
+  readln(n);
+  SetLength(arr, n);
+  for i := 0 to n - 1 do
+  begin
+    write('Nhap phan tu thu ', i + 1, ': ');
+    readln(arr[i]);
+  end;
+  writeln('Cac phan tu duy nhat:');
+  for i := 0 to n - 1 do
+  begin
+    isUnique := true;
+    for j := 0 to n - 1 do
+      if (i <> j) and (arr[i] = arr[j]) then
+      begin
+        isUnique := false;
+        break;
+      end;
+    if isUnique then
+      write(arr[i], ' ');
+  end;
+  writeln;
+end;
+
+// === Menu chính ===
+procedure Menu;
+var
+  choice: integer;
+begin
+  repeat
+    writeln('=== MENU ===');
+    writeln('1. Tinh tong, hieu, tich, thuong hai so nguyen');
+    writeln('2. Kiem tra so nguyen to');
+    writeln('3. In bang cuu chuong');
+    writeln('4. Tim so lon nhat, nho nhat trong ba so');
+    writeln('5. Kiem tra so hoan hao');
+    writeln('6. Dao nguoc chuoi');
+    writeln('7. Dem so ky tu trong chuoi');
+    writeln('8. Dem so tu trong chuoi');
+    writeln('9. Kiem tra chuoi doi xung (palindrome)');
+    writeln('10. Tim va thay the ky tu trong chuoi');
+    writeln('11. Chuyen doi chuoi thanh chu hoa/thuong');
+    writeln('12. Tim vi tri chuoi con trong chuoi');
+    writeln('13. Tim phan tu xuat hien nhieu nhat trong mang');
+    writeln('14. Tim phan tu lon thu hai trong mang');
+    writeln('15. Tach mang thanh mang chan va mang le');
+    writeln('16. Gop hai mang thanh mot mang');
+    writeln('17. Tim phan tu trung lap trong mang');
+    writeln('18. Xoa phan tu trung lap trong mang');
+    writeln('19. Tim phan tu duy nhat trong mang');
+    writeln('0. Thoat');
+    write('Lua chon: ');
+    readln(choice);
+    case choice of
+      1: TinhToanHaiSo;
+      2: KiemTraSoNguyenTo;
+      3: InBangCuuChuong;
+      4: TimMaxMinBaSo;
+      5: KiemTraSoHoanHao;
+      6: DaoNguocChuoi;
+      7: DemSoKyTu;
+      8: DemSoTu;
+      9: KiemTraPalindrome;
+      10: TimVaThayTheKyTu;
+      11: ChuyenDoiChuHoaThuong;
+      12: TimViTriChuoiCon;
+      13: TimPhanTuXuatHienNhieuNhat;
+      14: TimPhanTuLonThuHai;
+      15: TachMangChanLe;
+      16: GopHaiMang;
+      17: TimPhanTuTrungLap;
+      18: XoaPhanTuTrungLap;
+      19: TimPhanTuDuyNhat;
+      0: writeln('Thoat chuong trinh...');
+    else
+      writeln('Lua chon khong hop le!');
+    end;
+    writeln;
+  until choice = 0;
+end;
+
+begin
+  Menu;
+end.
