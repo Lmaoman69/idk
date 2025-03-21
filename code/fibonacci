@@ -1,0 +1,29 @@
+program FibonacciNhoHonN;
+uses crt;
+
+var 
+    a, b, c, n: longint;
+begin
+    clrscr;
+    
+    { Nhập giá trị n }
+    write('Nhap n: '); 
+    readln(n);
+
+    { Khởi tạo hai số Fibonacci đầu tiên }
+    a := 0; 
+    b := 1;
+    
+    { In ra các số Fibonacci nhỏ hơn n }
+    write('Cac so Fibonacci < ', n, ': ');
+    
+    while a < n do
+    begin
+        write(a, ' ');  
+        c := a + b;
+        a := b;
+        b := c;
+    end;
+    
+    readln;
+end.
