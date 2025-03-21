@@ -9,7 +9,6 @@ uses crt;
       n:=(n div 10) * (n mod 10);
       dora:=dora+1;
      end;
-    dura:=dora
    end;
 {------------------------------------------}
 var idk:integer;
